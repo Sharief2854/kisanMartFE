@@ -1,0 +1,75 @@
+.header{
+    /* border: 2px solid black; */
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0px 0px 4px rgb(160, 160, 160);
+    /* margin-top: 10px; */
+    border-radius: 20px;
+    padding: 0px 20px;
+    position: relative;
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+.logo{
+    width: 60px;
+}
+.logoContainer{
+    display: flex;
+    gap: 5px;
+}
+.logoContainer:hover{
+    cursor: pointer;
+}
+.circle{
+    width: 30px;
+    height: 30px;
+    background-color: #141A98;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+.nameContainer{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.nameContainer:hover{
+    cursor:pointer;
+}
+.dropDownContainer{
+    width: 200px;
+    /* border: 2px solid black; */
+    box-shadow: 0px 0px 4px rgb(160, 160, 160);
+    border-radius: 10px;
+    overflow: hidden;
+    position: absolute;
+    top: 90%;
+    right: 30px;
+    background-color: white;
+}
+.logoutBtn{
+    background-color: transparent;
+    border: none;
+    color: red;
+    padding: 0px;
+    font-size: inherit;
+}
+.logoutContainer{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    color: red;
+    font-size: 1rem;
+    
+}
+.logoutContainer:hover{
+    background-color: rgb(243, 147, 147);
+}
+.line{
+    height: 1px;
+    background-color: rgb(195, 195, 195);
+}
