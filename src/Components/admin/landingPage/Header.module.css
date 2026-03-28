@@ -64,6 +64,7 @@
     align-items: center;
     color: red;
     font-size: 1rem;
+    background-color: green;
     
 }
 .logoutContainer:hover{

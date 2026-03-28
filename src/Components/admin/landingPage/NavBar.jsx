@@ -25,7 +25,7 @@ function NavBar() {
   }
   return (
     // <div>
-        <div className={styles.sideBarContainer}
+        <nav className={styles.sideBarContainer}
           style={{
             width:isMenuClose?"70px":"400px",
             transition: "all 0.2s linear 0s"
@@ -70,7 +70,7 @@ function NavBar() {
             <div className={styles.footer}>
 
             </div>
-        </div>
+        </nav>
     // </div>
   )
 }

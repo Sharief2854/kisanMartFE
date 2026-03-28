@@ -4,13 +4,18 @@ import React, { useEffect, useState } from 'react'
 function Customers() {
     const [customers, setcustomers] = useState([]);
     async function getCustomersDetails(){
-        let res=await axios.get(`${process.env.REACT_APP_BE_API_URL}/admin/allCustomers`,{
-            headers:{
-                Authorization: `Bearer ${localStorage.getItem("token")}`
-            }
-        })
-        setcustomers(res.data);
-        console.log(res.data);
+       try{
+           let res = await axios.get(`${process.env.REACT_APP_BE_API_URL}/admin/allCustomers`, {
+               headers: {
+                   Authorization: `Bearer ${localStorage.getItem("token")}`
+               }
+           })
+           setcustomers(res.data);
+           console.log(res.data);
+       }
+       catch(err){
+        console.log("error");
+       }
     }
     useEffect(()=>{
         getCustomersDetails();
