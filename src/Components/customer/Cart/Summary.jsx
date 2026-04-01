@@ -8,7 +8,7 @@ function Summary({ totalQuantity, grandTotal }) {
         let res = await axios.post(
             `${process.env.REACT_APP_BE_API_URL}/payment/create-order`,
             {
-                amount: 500
+                amount: grandTotal
             }
         );
         let data=res.data;

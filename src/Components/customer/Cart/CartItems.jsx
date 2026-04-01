@@ -11,72 +11,68 @@ import { add } from '../../../redux/cartSlice';
 function CartItems() {
 
     const [products, setproducts] = useState([])
-    const [totalPrices, settotalPrices] = useState([]);
     const [grandTotal, setgrandTotal] = useState(0)
     const state = useSelector((state) => state.cart);
 
     const dispatch = useDispatch();
 
    
-    function deleteItem(id){
-        let res=products.filter((item,ind)=>{
-            if(item.id==id){
-                return false;
-            }
-            return true;
-        })
-        let newArr=totalPrices.filter((item,ind)=>{
-            if(item.id==id){
-                return false;
-            }
-            return true;
-        })
-        settotalPrices(newArr);
-        calcGrandTotal(newArr);
-        setproducts(res);
-    }
+    // function deleteItem(id){
+    //     let res=products.filter((item,ind)=>{
+    //         if(item.id==id){
+    //             return false;
+    //         }
+    //         return true;
+    //     })
+    //     let newArr=totalPrices.filter((item,ind)=>{
+    //         if(item.id==id){
+    //             return false;
+    //         }
+    //         return true;
+    //     })
+    //     settotalPrices(newArr);
+    //     calcGrandTotal(newArr);
+    //     setproducts(res);
+    // }
 
 
-    function getTotalPrice(totalPrice,id){
-        let arr=totalPrices.map((item,ind)=>{
-            if(item.id==id){
-                return{
-                    ...item,
-                    price:totalPrice,
-                }
-            }
-            return item;
-        });
-        // console.log(arr);
-        settotalPrices(arr);
-        calcGrandTotal(arr);
+    // function getTotalPrice(totalPrice,id){
+    //     let arr=totalPrices.map((item,ind)=>{
+    //         if(item.id==id){
+    //             return{
+    //                 ...item,
+    //                 price:totalPrice,
+    //             }
+    //         }
+    //         return item;
+    //     });
+    //     console.log(arr);
+    //     settotalPrices(arr);
+    //     calcGrandTotal(arr);
+    // }
 
-    }
+    // function calcGrandTotal(arr){
+    //     let result = arr.reduce((acc, item, ind) => {
+    //         return acc + item.price;
+    //     }, 0);
+    //     setgrandTotal(result);
+    // }
 
-    function calcGrandTotal(arr){
-        let result = arr.reduce((acc, item, ind) => {
-            return acc + item.price;
-        }, 0);
-        setgrandTotal(result);
-    }
-    useEffect(()=>{
-        let arr=products.map((item,ind)=>{
-            return {
-                price:item.price,
-                id:item.id
-            };
-        });
-        // console.log("hi");
-        settotalPrices(arr);
-        calcGrandTotal(arr);
-    },[])
 
 
     useEffect(()=>{
         setproducts(state.cart);
-        // console.log(state.cart,"lkjgfdz")
+        console.log(state.cart);
+        let t=state.cart.reduce((total,item,ind)=>{
+            // console.log(item);
+            total=total+item.count*item.productId.price;
+            return total;
+        },0);
+        // console.log(t);
+        setgrandTotal(t);
     },[state]);
 
+    
 
   return (
     <Grid
@@ -118,7 +114,7 @@ function CartItems() {
                         products.length==0?"Cart Empty":
                           products.map((item, ind) => {
                               return (
-                                  <CartItem item={item.productId} deleteItem={deleteItem} getTotalPrice={getTotalPrice} key={item._id}/>
+                                  <CartItem item={item} key={item._id}/>
                               )
                           })
                       }

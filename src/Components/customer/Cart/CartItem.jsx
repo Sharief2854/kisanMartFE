@@ -1,40 +1,51 @@
 import { Box, Button, Divider, Grid, Stack, Typography } from '@mui/material'
+import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux';
+import { decCount, incCount, deleteItem } from '../../../redux/cartSlice';
 
-function CartItem({ item, deleteItem, getTotalPrice }) {
-    let { id, name, category, price, unit, quantity,image}=item;
-    const [totalPrice, settotalPrice] = useState(price);
+function CartItem({ item, getTotalPrice }) {
+    let { _id, name, category, price, unit, quantity,image}=item.productId;
+    // console.log(item);
+    const [totalPrice, settotalPrice] = useState(item.count*price);
 
-    const [count, setcount] = useState(1);
+    const [count, setcount] = useState(item.count);
 
-    function dec(){
+    let dispatch=useDispatch();
+    async function dec(){
         if(count<=1){
             return;
         }
+        await axios.post(`${process.env.REACT_APP_BE_API_URL}/cart/count`, { id:item._id,operation:"dec" })
+        dispatch(decCount(item._id));
+
         setcount((prev)=>{
             prev--;
             settotalPrice(prev*price);
-            getTotalPrice(prev * price,id)
+            // getTotalPrice(prev * price,_id)
             return prev;
         })
     }
-    function inc(){
+    async function inc(){
         if (count >= quantity){
             window.alert(`there is only ${quantity} ${unit}'s`);
             return;
         }
+        await axios.post(`${process.env.REACT_APP_BE_API_URL}/cart/count`, { id: item._id, operation: "inc" });
+        dispatch(incCount(item._id));
+        // console.log(count);
         setcount((prev) => {
             prev++;
             settotalPrice(prev * price);
-            getTotalPrice(prev * price,id)
+            // getTotalPrice(prev * price,_id)
             return prev;
         })
 
 
     }
-    useEffect(()=>{
-        console.log(totalPrice);
-    },[totalPrice]);
+    // useEffect(()=>{
+    //     console.log(totalPrice);
+    // },[totalPrice]);
    
   return (
     <Grid
@@ -88,9 +99,9 @@ function CartItem({ item, deleteItem, getTotalPrice }) {
                  Rs. {totalPrice}
               </Typography>
               <Button
-                onClick={()=>{
-                      deleteItem(id);
-                      console.log(totalPrice);
+                onClick={async ()=>{
+                      await axios.delete(`${ process.env.REACT_APP_BE_API_URL }/cart/delete/${item._id}`);
+                      dispatch(deleteItem(item._id));
                 }}
               >
                 X

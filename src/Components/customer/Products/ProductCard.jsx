@@ -32,7 +32,15 @@ function ProductCard({item}) {
         </Typography>
         <Button
             onClick={async ()=>{
-                  let res=await axios.post(`${process.env.REACT_APP_BE_API_URL }/cart/add`,{productId:_id})
+                  let res=await axios.post(
+                    `${process.env.REACT_APP_BE_API_URL }/cart/add`,
+                    {productId:_id},
+                    {
+                          headers: {
+                              Authorization: `Bearer ${localStorage.getItem("token")}`
+                          }
+                    }
+                )
                   alert("added");
                   let obj={
                     ...res.data,

@@ -5,7 +5,12 @@ export const fetchCart = createAsyncThunk(
     "users/fetchCart",
     async () => {
         const response = await axios.get(
-            `${process.env.REACT_APP_BE_API_URL}/cart`
+            `${process.env.REACT_APP_BE_API_URL}/cart`,
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
+            }
         );
         // console.log(response.data);
         return response.data;
@@ -27,9 +32,42 @@ const cartSlice = createSlice({
             state.cart=arr;
             // console.log(state.cart);
         },
-        // addItem:(state,action)=>{
-        //     [...state.cart,action.payload]
-        // }
+       incCount:(state,action)=>{
+       let arr=state.cart;
+       let newArr=arr.map((item,ind)=>{
+            if(item._id==action.payload){
+                return {
+                    ...item,
+                    count:item.count+1
+                }
+            }
+            return item;
+       });
+        state.cart=newArr;
+       },
+        decCount: (state, action) => {
+            let arr = state.cart;
+            let newArr = arr.map((item, ind) => {
+                if (item._id == action.payload) {
+                    return {
+                        ...item,
+                        count: item.count -1
+                    }
+                }
+                return item;
+            });
+            state.cart = newArr;
+        },
+        deleteItem:(state,action)=>{
+            let arr = state.cart;
+            let newArr = arr.filter((item, ind) => {
+                if (item._id == action.payload) {
+                    return false;
+                }
+                return true;
+            });
+            state.cart = newArr;
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -50,5 +88,5 @@ const cartSlice = createSlice({
 
 });
 
-export const { add } = cartSlice.actions;
+export const { add, incCount, decCount, deleteItem } = cartSlice.actions;
 export default cartSlice.reducer;
