@@ -14,6 +14,8 @@ import CartItems from './Components/customer/Cart/CartItems';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchCart } from './redux/cartSlice';
+import Orders from './Components/customer/orders/Orders';
+import AdminOrders from './Components/admin/orders/AdminOrders';
 
 
 function App() {
@@ -35,6 +37,8 @@ function App() {
 
             <Route path='/customer/products' element={<CustomerProducts />} />
             <Route path='/customer/cart' element={<CartItems />} />
+            <Route path='/customer/orders' element={<Orders />} />
+
 
 
           </Route>
@@ -47,6 +51,8 @@ function App() {
 
                 <Route path='/admin/customers' element={<Customers />} />
                 <Route path='/admin/products' element={<Products/>} />
+               <Route path='/admin/orders' element={<AdminOrders />} />
+
 
 
             </Route>

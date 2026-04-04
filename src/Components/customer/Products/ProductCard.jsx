@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from '@mui/material'
+import { Box, Button, Chip, Grid, Typography } from '@mui/material'
 import axios from 'axios';
 import React from 'react'
 import { useDispatch } from 'react-redux';
@@ -13,7 +13,9 @@ function ProductCard({item}) {
         sx={{
             width:"100%",
             // height:"300px",
-            border:"10px solid black"
+            border:"10px solid black",
+            position:"relative",
+            backgroundColor:quantity==0?"gray":""
         }}
     >
         <Box 
@@ -30,28 +32,44 @@ function ProductCard({item}) {
         <Typography>
             {price}
         </Typography>
-        <Button
-            onClick={async ()=>{
-                  let res=await axios.post(
-                    `${process.env.REACT_APP_BE_API_URL }/cart/add`,
-                    {productId:_id},
-                    {
-                          headers: {
-                              Authorization: `Bearer ${localStorage.getItem("token")}`
-                          }
+        {
+            quantity==0?
+            <Typography variant="h6" color="initial">
+                Outof stock
+            </Typography>
+            :
+            <Button
+                onClick={async () => {
+                    let res = await axios.post(
+                        `${process.env.REACT_APP_BE_API_URL}/cart/add`,
+                        { productId: _id },
+                        {
+                            headers: {
+                                Authorization: `Bearer ${localStorage.getItem("token")}`
+                            }
+                        }
+                    )
+                    alert("added");
+                    let obj = {
+                        ...res.data,
+                        productId: item
                     }
-                )
-                  alert("added");
-                  let obj={
-                    ...res.data,
-                    productId:item
-                  }
-                dispatch(add([obj]));
+                    dispatch(add([obj]));
 
+                }}
+            >
+                Add To Cart
+            </Button>
+        }
+          <Chip 
+            label={`q: ${quantity}`} 
+            color="primary" 
+            sx={{
+                position:"absolute",
+                top:"0px",
+                left:"0px"
             }}
-        >
-            Add To Cart
-        </Button>
+          />
     </Grid>
   )
 }

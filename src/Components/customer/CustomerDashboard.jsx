@@ -19,8 +19,8 @@ import { useDispatch } from 'react-redux';
 import { fetchCart } from '../../redux/cartSlice';
 
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ['Products',"Orders"];
+
 
 function CustomerDashboard() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -166,11 +166,19 @@ function CustomerDashboard() {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
+                
+                  <MenuItem>
+                    <Typography 
+                      sx={{ textAlign: 'center' }}
+                      onClick={()=>{
+                        localStorage.removeItem("token");
+                        navigate("/");
+                      }}
+                    >
+                      Logout
+                    </Typography>
                   </MenuItem>
-                ))}
+
               </Menu>
               <IconButton sx={{ color: "white" }} onClick={()=>navigate('/customer/cart')}>
                 <ShoppingCartIcon/>

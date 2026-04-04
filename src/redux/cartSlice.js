@@ -67,6 +67,9 @@ const cartSlice = createSlice({
                 return true;
             });
             state.cart = newArr;
+        },
+        deleteAll: (state, action) => {
+            state.cart = [];
         }
     },
     extraReducers: (builder) => {
@@ -88,5 +91,5 @@ const cartSlice = createSlice({
 
 });
 
-export const { add, incCount, decCount, deleteItem } = cartSlice.actions;
+export const { add, incCount, decCount, deleteItem ,deleteAll} = cartSlice.actions;
 export default cartSlice.reducer;

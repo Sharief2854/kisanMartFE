@@ -51,6 +51,7 @@ function CartItem({ item, getTotalPrice }) {
     <Grid
         size={{xs:12}}
         sx={{
+            position:"relative",
         }}
     >
         <Stack
@@ -99,6 +100,9 @@ function CartItem({ item, getTotalPrice }) {
                  Rs. {totalPrice}
               </Typography>
               <Button
+              sx={{
+                zIndex:"99"
+              }}
                 onClick={async ()=>{
                       await axios.delete(`${ process.env.REACT_APP_BE_API_URL }/cart/delete/${item._id}`);
                       dispatch(deleteItem(item._id));
@@ -108,6 +112,28 @@ function CartItem({ item, getTotalPrice }) {
               </Button>
         </Stack>
         <Divider sx={{mt:2}}/>
+        {
+            quantity==0?
+                  <Box
+                      sx={{
+                          backgroundColor: "gray",
+                          opacity: 0.7,
+                          width: "100%",
+                          height: "100%",
+                          position: "absolute",
+                          top: "0px",
+                          left: "0px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center"
+                      }}
+                  >
+                      <Typography variant="h6" color="initial">
+                          Outof stock
+                      </Typography>
+                  </Box>
+                  :""
+        }
     </Grid>
   )
 }

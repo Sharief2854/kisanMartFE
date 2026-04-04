@@ -12,7 +12,7 @@ function NavBar() {
   let navItems=[
     { name: "Customers", icon: <PeopleIcon /> ,href:"/admin/customers"},
     { name: "Products", icon: <ShoppingBasketIcon />, href: "/admin/products" },
-    // { name: "Customers", icon: <DashboardIcon />, href: "/customers" },
+    { name: "Orders", icon: <DashboardIcon />, href: "/admin/orders" },
     // { name: "Customers", icon: <DashboardIcon />, href: "/customers" },
   ]
 
@@ -53,7 +53,7 @@ function NavBar() {
              {
               navItems.map((item, ind)=>{
                 return(
-                  <div className={styles.navItem} onClick={()=>navigate(item.href)}>
+                  <div className={styles.navItem} onClick={()=>navigate(item.href)} key={ind}>
                     {item.icon}
                     {
                       isMenuClose ? ""
