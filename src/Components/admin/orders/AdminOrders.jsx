@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import Typography from '@mui/material/Typography'
-import { Box, Divider, Grid } from '@mui/material';
+import { Box, Divider, Grid, Stack, Switch } from '@mui/material';
 import OrderCard from '../../customer/orders/OrderCard';
+import OrderDetails from './OrderDetails';
 
 function AdmminOrders() {
 
-  const [orders, setorders] = useState([])
+  const [orders, setorders] = useState([]);
+
   async function getOrders() {
     let res = await axios.get(`${process.env.REACT_APP_BE_API_URL}/orders/getAll`,
       {
@@ -15,13 +17,13 @@ function AdmminOrders() {
         }
       }
     );
-    setorders(res.data);
-    // console.log(res.data);
+    setorders(res.data.reverse());
+    
   }
 
-  let products = orders.map((order) => {
+  let products = orders.map((order,ind) => {
     let arr = order.products.map((item, ind) => {
-      console.log(item);
+      // console.log(item);
 
       let totalPrice = item.productId.price * item.count;
       return (
@@ -58,34 +60,15 @@ function AdmminOrders() {
 
     const orderDate = dateObj.toLocaleDateString('en-IN', dateOptions);
     const orderTime = dateObj.toLocaleTimeString('en-IN', timeOptions);
+    order.orderDate=orderDate;
+    order.orderTime = orderTime;
 
+    console.log(order);
+
+
+   
     return (
-      <Grid
-        size={{ xs: 12 }}
-        sx={{
-          border: "1px solid black",
-          borderRadius: "10px",
-          p: 2
-        }}
-        key={order._id}
-      >
-        <Typography variant="h6" color="initial"
-          sx={{
-            border: "1px solid black",
-            display: "inline-block",
-            p: 1,
-            borderRadius: 2,
-            backgroundColor: "gray"
-          }}
-        >
-          {orderDate} <br />
-          {orderTime}
-        </Typography>
-        <Box>
-          {arr}
-        </Box>
-        <Divider />
-      </Grid>
+      <OrderDetails order={order} arr={arr} key={ind}/>
     );
   });
 
